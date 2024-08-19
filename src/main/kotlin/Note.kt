@@ -1,1 +1,1 @@
-data class Note (var name: String, var text: String): Menu()
+data class Note (var name: String, var text: String)
