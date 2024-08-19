@@ -23,20 +23,13 @@ fun main(args: Array<String>) {
 
         if (checkScreen(menu.getMenuSize()) == false) return
 
-        make()
-
 
     }
-
-
-
-
-
-
-
 
 }
 val scanner = Scanner(System.`in`).useDelimiter("\\R")
 var archiveList: MutableList<Archive> = mutableListOf()
 var screen = Screen.ArchivesList
 var print: String = ""
+var archiveSelected: Archive? = null
+var noteSelected: Note? = null

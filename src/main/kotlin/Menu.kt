@@ -6,9 +6,9 @@ open class Menu () {
         val menuList = when(screen){
             Screen.ArchivesList -> menuArchivesCreate()
             Screen.ArchiveShow -> menuNotesCreate()
-            Screen.ArchiveAdd, Screen.NoteAdd -> mutableListOf("Введите название", "Назад")
+            Screen.ArchiveAdd -> mutableListOf("Создание архива", "Назад")
+            Screen.NoteAdd -> mutableListOf("Создание заметки", "Назад")
             Screen.NoteShow -> mutableListOf("Назад")
-            else -> mutableListOf("Назад")
         }
         println("Выберите пункт меню:")
         for((index, item) in menuList.withIndex()){
@@ -28,20 +28,17 @@ open class Menu () {
         return menuList
     }
 
-    // TODO: ПЕРЕДАТЬ АРХИВ В ФУНКЦИЮ, Список заметок нужен
     fun menuNotesCreate(): MutableList<String>{
-        menuList = mutableListOf("Создать заметку", "Выход")
+        menuList = mutableListOf("Создать заметку", "Назад")
         var itemNameList: MutableList<String> = mutableListOf()
-        val archive = Archive(name = "name", notes = mutableListOf())
-        for(note in archive.notes){
-            itemNameList.add(note.name)
+        val archive = archiveSelected
+        if (archive != null) {
+            for(note in archive.notes){
+                itemNameList.add(note.name)
+            }
         }
         menuList.addAll(1, itemNameList)
         return menuList
     }
-
-
-
-
 
 }

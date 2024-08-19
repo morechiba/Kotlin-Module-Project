@@ -27,60 +27,59 @@ fun checkMenuPoints(menuSize: Int): Boolean {
    if(print.toInt() in 0.. (menuSize-1)) return true else return false
 }
 
-fun make(){
-    println("Делаю!")
-}
-
 fun checkScreen(menuSize: Int): Boolean{
     val number: Int = print.toInt()
     val lastNumber: Int = menuSize - 1
     when(screen){
         Screen.ArchivesList -> {
             when(number){
-                // TODO: ВЫБОР АРХИВА 
-                0 -> createArchive()
+                0 -> screen = Screen.ArchiveAdd
                 lastNumber -> {
                     println("Завершение программы")
                     return false
                 }
-                else -> println("else")
+                else -> {
+                    archiveSelected = archiveList[number-1]
+                    showArchive(archiveList[number-1])
+                }
             }
         }
         Screen.ArchiveAdd -> {
             when(number){
                 0 -> createArchive()
                 lastNumber -> screen = Screen.ArchivesList
-                else -> println("else")
             }
         }
         Screen.ArchiveShow -> {
             when(number){
-                0 -> createNote()
-                1 -> println(screen)
-                2 -> screen = Screen.NoteShow
-                lastNumber -> screen = Screen.ArchivesList
+                0 -> screen = Screen.NoteAdd
+                lastNumber -> {
+                    screen = Screen.ArchivesList
+                    archiveSelected = null
+                }
+                else -> {
+                    if(archiveSelected != null) {
+                        noteSelected = archiveSelected!!.notes[number-1]
+                    }
+                    screen = Screen.NoteShow
+                    showNote(noteSelected!!)
+                }
             }
         }
-
         Screen.NoteShow -> {
             when(number) {
-                0 -> println("0 show")
-                1 -> println(screen)
-                2 -> screen = Screen.NoteAdd
-                lastNumber -> screen = Screen.ArchiveShow
+                0 -> {
+                    screen = Screen.ArchiveShow
+                    noteSelected = null
+                }
             }
         }
         Screen.NoteAdd -> {
             when(number) {
-                0 -> println("0 show")
-                1 -> println(screen)
-                2 -> screen = Screen.NoteAdd
+                0 -> createNote()
                 lastNumber -> screen = Screen.ArchiveShow
             }
         }
-
-
-        else -> println("else")
     }
     return true
 }
@@ -91,14 +90,23 @@ fun createArchive() {
     val archive = Archive(name, mutableListOf())
     archiveList.add(archive)
     println("Создан архив ${archive.name}")
+    screen = Screen.ArchivesList
 }
 fun createNote() {
     println("Введите название заметки")
     val name = scanner.nextLine()
     println("Введите текст заметки")
     val text = scanner.nextLine()
-    val note = Note(name, text)
-    // TODO: ДОБАВИТЬ В СПИСОК ЗАМЕТОК
-    //notesList.add(note)
-    println("Создана заметка ${note.name}")
+    archiveSelected?.notes?.add(Note(name, text))
+    println("Создана заметка $name")
+    screen = Screen.ArchiveShow
+}
+fun showArchive(archive: Archive){
+    screen = Screen.ArchiveShow
+    println("Архив ${archive.name}")
+}
+fun showNote(note: Note) {
+    screen = Screen.NoteShow
+    println("Заметка ${note.name}")
+    println("Текст: ${note.text}")
 }
