@@ -86,7 +86,7 @@ fun checkScreen(menuSize: Int): Boolean{
 
 fun createArchive() {
     println("Введите название архива")
-    val name = scanner.nextLine()
+    var name = checkEmpty(scanner.nextLine())
     val archive = Archive(name, mutableListOf())
     archiveList.add(archive)
     println("Создан архив ${archive.name}")
@@ -94,9 +94,9 @@ fun createArchive() {
 }
 fun createNote() {
     println("Введите название заметки")
-    val name = scanner.nextLine()
+    var name = checkEmpty(scanner.nextLine())
     println("Введите текст заметки")
-    val text = scanner.nextLine()
+    var text = checkEmpty(scanner.nextLine())
     archiveSelected?.notes?.add(Note(name, text))
     println("Создана заметка $name")
     screen = Screen.ArchiveShow
@@ -109,4 +109,12 @@ fun showNote(note: Note) {
     screen = Screen.NoteShow
     println("Заметка ${note.name}")
     println("Текст: ${note.text}")
+}
+fun checkEmpty(text: String): String {
+    var textChecked = text
+    while(textChecked.isEmpty()){
+        println("Поле не может быть пустым")
+        textChecked = scanner.nextLine()
+    }
+    return textChecked
 }
