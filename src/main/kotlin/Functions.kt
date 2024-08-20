@@ -59,7 +59,7 @@ fun checkScreen(menuSize: Int): Boolean{
                 }
                 else -> {
                     if(archiveSelected != null) {
-                        noteSelected = archiveSelected!!.notes[number-1]
+                        noteSelected = archiveSelected?.notes?.get(number-1)
                     }
                     screen = Screen.NoteShow
                     showNote(noteSelected!!)
